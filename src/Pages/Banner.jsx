@@ -9,7 +9,7 @@ import img6 from '../../src/assets/home/06.png'
 
 export default function Banner() {
     return (
-        <div className="h-32">
+        <div>
             <Carousel>
                 <div>
                     <img src={img1} />
