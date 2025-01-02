@@ -10,9 +10,7 @@ export default function Menu() {
                 <title>Bistro Boss | Menu</title>
             </Helmet>
             <COver img={menuBG} title={"Our Menu"} subTitle={"See our menu"}></COver>
-            <PopularMenu></PopularMenu>
-            <COver img={menuBG} title={"Our Menu"} subTitle={"See our menu"}></COver>
-            <PopularMenu></PopularMenu>
+            
         </div>
     )
 }
