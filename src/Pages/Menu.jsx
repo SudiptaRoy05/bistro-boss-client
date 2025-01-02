@@ -33,11 +33,16 @@ export default function Menu() {
 
             {/* dessert menu  */}
 
-            <MenuCategory coverImg={desertBG} title={'Dessert'} subTitle={"Once a desert always a desert"} items={dessert}></MenuCategory>
+            <MenuCategory coverImg={desertBG} title={'dessert'} subTitle={"Once a desert always a desert"} items={dessert}></MenuCategory>
 
-            {/* pizza menu  */}
-            <MenuCategory coverImg={soupBG} title={'Soup'} subTitle={"Once a soup always a soup"} items={soup}></MenuCategory>
+             {/* pizza menu  */}
+             <MenuCategory coverImg={pizzaBG} title={'pizza'} subTitle={"Once a soup always a soup"} items={soup}></MenuCategory>
 
+
+            {/* soup menu  */}
+            <MenuCategory coverImg={soupBG} title={'soup'} subTitle={"Once a soup always a soup"} items={soup}></MenuCategory>
+            
+           
             {/* pizza menu  */}
             <MenuCategory coverImg={saladBG} title={'salad'} subTitle={"Once a salad always a salad"} items={salad}></MenuCategory>
 
