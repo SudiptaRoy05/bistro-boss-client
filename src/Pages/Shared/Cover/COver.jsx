@@ -1,7 +1,8 @@
 import { Parallax } from 'react-parallax';
 export default function COver({ img, title, subTitle }) {
     return (
-        <Parallax
+        <div className='mb-20'>
+            <Parallax
             blur={{ min: -50, max: 50 }}
             bgImage={img}
             bgImageAlt="the dog"
@@ -19,6 +20,7 @@ export default function COver({ img, title, subTitle }) {
                 </div>
             </div>
         </Parallax>
+        </div>
 
     )
 }
