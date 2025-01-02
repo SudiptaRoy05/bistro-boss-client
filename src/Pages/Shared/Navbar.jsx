@@ -1,10 +1,12 @@
+import { NavLink } from "react-router-dom"
 
 export default function Navbar() {
     const navLinks = (
         <>
-            <li><a>Item 1</a></li>
+            <li><NavLink to='/'>Home</NavLink></li>
+            <li><NavLink to='/menu'>Menu</NavLink></li>
+            
 
-            <li><a>Item 3</a></li>
         </>
     )
     return (
