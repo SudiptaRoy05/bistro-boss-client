@@ -1,14 +1,32 @@
+import { useContext } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { Result } from "postcss";
 
 export default function Register() {
+    const { createUser } = useContext(AuthContext);
+
     const { register, handleSubmit, formState: { errors }, } = useForm()
     const onSubmit = data => {
         console.log(data);
+        const email = data.email;
+        const password = data.password;
+        createUser(email, password)
+            .then(Result => {
+                const user = Result.user
+                console.log(user);
+            })
     }
+
+
 
     return (
         <div className="hero bg-base-200 min-h-screen px-4">
+            <Helmet>
+                <title>Bistro Boss | Register</title>
+            </Helmet>
             <div className="hero-content flex flex-col lg:flex-row-reverse items-center gap-12">
                 {/* Text Section */}
                 <div className="text-center lg:text-left max-w-lg">
@@ -71,14 +89,22 @@ export default function Register() {
                             <input
                                 type="password"
                                 name="password"
-                                {...register("password", { required: true, minLength: 6, maxLength: 20 })}
+                                {...register("password", {
+                                    required: true,
+                                    minLength: 6,
+                                    maxLength: 20,
+                                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/
+                                })}
                                 placeholder="Enter your password"
                                 className="input input-bordered w-full text-gray-800"
                             />
                             <label className="label">
                                 <a href="#" className="label-text-alt link link-hover text-primary">Forgot password?</a>
                             </label>
-                            {errors.password && <span className="text-red-600">This field is required</span>}
+                            {errors.password?.type === "required" && <span className="text-red-600">This field is required</span>}
+                            {errors.password?.type === 'minLength' && <span className="text-red-600">password should be minimum 6 character</span>}
+                            {errors.password?.type === 'maxLength' && <span className="text-red-600">passwor must be less than 20 character</span>}
+                            {errors.password?.type === 'pattern' && <span className="text-red-600">passwor must one uppercase one lowercase minimum one number and a special charecter</span>}
                         </div>
                         {/* Register Button */}
                         <div className="form-control mt-6">

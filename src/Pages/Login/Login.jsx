@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../Provider/AuthProvider';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export default function Login() {
     const captchaRef = useRef(null)
@@ -35,6 +36,9 @@ export default function Login() {
     }
     return (
         <div className="hero bg-base-200 min-h-screen px-4">
+            <Helmet>
+                <title>Bistro Boss | Login</title>
+            </Helmet>
             <div className="hero-content flex flex-col lg:flex-row gap-12 items-center">
                 {/* Text Section */}
                 <div className="text-center lg:text-left max-w-lg">
