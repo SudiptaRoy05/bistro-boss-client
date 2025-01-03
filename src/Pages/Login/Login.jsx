@@ -1,12 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from '../../Provider/AuthProvider';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
-    const captchaRef =  useRef(null)
+    const captchaRef = useRef(null)
     const [diasble, setDisable] = useState(true);
-    useEffect(()=>{
+    const { login, } = useContext(AuthContext);
+    useEffect(() => {
         loadCaptchaEnginge(6);
-    },[])
+    }, [])
     const handleLogin = e => {
         e.preventDefault();
         const form = new FormData(e.target);
@@ -14,14 +17,19 @@ export default function Login() {
         const password = form.get('password');
 
         console.table({ email, password })
+        login(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+            })
     }
-    const handleValidateCaptcha=()=>{
+    const handleValidateCaptcha = () => {
         const userCapValue = captchaRef.current.value;
         console.log(userCapValue)
-        if(validateCaptcha(userCapValue)){
+        if (validateCaptcha(userCapValue)) {
             setDisable(false)
         }
-        else{
+        else {
             setDisable(true)
         }
     }
@@ -79,7 +87,7 @@ export default function Login() {
                                 placeholder="type the captcha above"
                                 className="input input-bordered"
                                 required
-                                
+
                             />
                             <button onClick={handleValidateCaptcha} className='btn btn-outline btn-xs mt-2'>Validate</button>
 
@@ -89,6 +97,18 @@ export default function Login() {
                             <input type="submit" disabled={diasble} className="btn btn-primary w-full" value="Login" />
                         </div>
                     </form>
+                    <div className="text-center py-4">
+                        <span className="text-gray-600">
+                            Don’t have an account?{" "}
+                            <Link
+                                to="/register"
+                                className="text-primary font-medium hover:underline"
+                            >
+                                Register here
+                            </Link>
+                        </span>
+                    </div>
+
                 </div>
             </div>
         </div>
