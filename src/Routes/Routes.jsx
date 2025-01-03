@@ -5,6 +5,8 @@ import Menu from "../Pages/Menu";
 import OrderFood from "../Pages/OrderFood";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import PrivateRoutes from "./PrivateRoutes";
+import Secret from "../Pages/Shared/Secret";
 
 const router = createBrowserRouter([
     {
@@ -25,17 +27,23 @@ const router = createBrowserRouter([
                 element: <OrderFood></OrderFood>
             },
             {
-                path:'/login',
-                element:<Login></Login>
+                path: '/login',
+                element: <Login></Login>
             },
             {
-                path:'/register',
-                element:<Register></Register>
-            }
+                path: '/register',
+                element: <Register></Register>
+            },
+            {
+                path: '/secret',
+                element: <PrivateRoutes>
+                    <Secret></Secret>
+                </PrivateRoutes>,
+            },
         ]
-        
+
     }
-   
+
 ])
 
 export default router;

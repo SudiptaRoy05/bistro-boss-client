@@ -1,39 +1,90 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../Provider/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 export default function Login() {
-    const captchaRef = useRef(null)
-    const [diasble, setDisable] = useState(true);
-    const { login, } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const fromPath = location.state?.from?.pathname || '/';
+    console.log(fromPath)
+
+
+
+    const captchaRef = useRef(null);
+    const [disable, setDisable] = useState(true);
+    const { login } = useContext(AuthContext);
+
     useEffect(() => {
         loadCaptchaEnginge(6);
-    }, [])
-    const handleLogin = e => {
+    }, []);
+
+    const handleLogin = (e) => {
         e.preventDefault();
         const form = new FormData(e.target);
         const email = form.get('email');
         const password = form.get('password');
 
-        console.table({ email, password })
         login(email, password)
-            .then(result => {
+            .then((result) => {
                 const user = result.user;
-                console.log(user)
+                console.log(user);
+
+                // Show success alert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful',
+                    text: `Welcome back, ${user.displayName || 'User'}!`,
+                    confirmButtonColor: '#3085d6',
+                });
+
+
             })
-    }
-    const handleValidateCaptcha = () => {
+            .catch((error) => {
+                console.error(error);
+
+                // Show error alert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: 'Invalid email or password. Please try again.',
+                    confirmButtonColor: '#d33',
+                });
+            });
+        console.log(fromPath)
+        navigate(fromPath, { replace: true });
+    };
+
+    const handleValidateCaptcha = (e) => {
+        e.preventDefault();
         const userCapValue = captchaRef.current.value;
-        console.log(userCapValue)
+
         if (validateCaptcha(userCapValue)) {
-            setDisable(false)
+            setDisable(false);
+
+            // Show success alert for valid captcha
+            Swal.fire({
+                icon: 'success',
+                title: 'Captcha Validated',
+                text: 'You can now proceed to login.',
+                confirmButtonColor: '#3085d6',
+            });
+        } else {
+            setDisable(true);
+
+            // Show error alert for invalid captcha
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Captcha',
+                text: 'Please try again.',
+                confirmButtonColor: '#d33',
+            });
         }
-        else {
-            setDisable(true)
-        }
-    }
+    };
+
     return (
         <div className="hero bg-base-200 min-h-screen px-4">
             <Helmet>
@@ -88,17 +139,26 @@ export default function Login() {
                                 type="text"
                                 name="captcha"
                                 ref={captchaRef}
-                                placeholder="type the captcha above"
+                                placeholder="Type the captcha above"
                                 className="input input-bordered"
                                 required
-
                             />
-                            <button onClick={handleValidateCaptcha} className='btn btn-outline btn-xs mt-2'>Validate</button>
-
+                            <button
+                                onClick={handleValidateCaptcha}
+                                className="btn btn-outline btn-xs mt-2"
+                            >
+                                Validate
+                            </button>
+                            {/* can use onBlur if i dont want to use btn */}
                         </div>
                         {/* Login Button */}
                         <div className="form-control mt-6">
-                            <input type="submit" disabled={diasble} className="btn btn-primary w-full" value="Login" />
+                            <input
+                                type="submit"
+                                disabled={disable}
+                                className="btn btn-primary w-full"
+                                value="Login"
+                            />
                         </div>
                     </form>
                     <div className="text-center py-4">
@@ -112,7 +172,6 @@ export default function Login() {
                             </Link>
                         </span>
                     </div>
-
                 </div>
             </div>
         </div>
