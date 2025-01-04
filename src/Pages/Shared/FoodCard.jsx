@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hook/useAuth";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import useCart from "../../Hook/useCart";
 
 export default function FoodCard({ item }) {
     const { _id, name, image, price, recipe } = item
@@ -12,8 +13,10 @@ export default function FoodCard({ item }) {
     const location = useLocation();
     const axiosSecure = useAxiosSecure();
 
+    const [, refetch] = useCart();
 
-    const handleAddToCard = async (food) => {
+
+    const handleAddToCard = async () => {
         try {
             const cardItem = {
                 menuItemId: _id,
@@ -25,7 +28,7 @@ export default function FoodCard({ item }) {
             if (user && email) {
                 //TODO:
                 await axiosSecure.post('/carts', cardItem)
-                
+
                 Swal.fire({
                     title: 'Added to Cart!',
                     text: `${name} has been successfully added to your cart.`,
@@ -33,6 +36,7 @@ export default function FoodCard({ item }) {
                     showConfirmButton: false,
                     timer: 2000, // Automatically closes after 2 seconds
                 });
+                refetch();
             } else {
                 Swal.fire({
                     title: 'Login Required',
@@ -72,7 +76,7 @@ export default function FoodCard({ item }) {
                 <h2 className="card-title text-xs font-thin">{recipe}</h2>
                 <div className="card-actions">
                     <button
-                        onClick={() => handleAddToCard(item)}
+                        onClick={handleAddToCard}
                         className="btn btn-outline border-b-4 btn-primary bg-slate-200">Add to cart</button>
                 </div>
             </div>
