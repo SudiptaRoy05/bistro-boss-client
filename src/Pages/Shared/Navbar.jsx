@@ -2,9 +2,12 @@ import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { IoCart } from "react-icons/io5";
+import useCart from "../../Hook/useCart";
 
 export default function Navbar() {
     const { user, logout } = useContext(AuthContext);
+    const [cart] = useCart();
+
 
     const handleLogout = () => {
         logout()
@@ -23,7 +26,7 @@ export default function Navbar() {
             <li><NavLink to='/orderfood/salad'>Order Food</NavLink></li>
             <li><NavLink to='/'>
                 <IoCart></IoCart>
-                <div className="badge badge-secondary">+2</div>
+                <div className="badge badge-secondary">+{cart && cart.length || 0}</div>
             </NavLink></li>
         </>
     );
