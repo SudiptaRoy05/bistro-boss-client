@@ -1,26 +1,75 @@
 import { useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { Result } from "postcss";
+import Swal from 'sweetalert2';
 
 export default function Register() {
-    const { createUser } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const { register, handleSubmit, formState: { errors }, } = useForm()
-    const onSubmit = data => {
+    const fromPath = location.state?.from?.pathname || '/';
+    console.log(fromPath)
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const { register, handleSubmit, reset, formState: { errors }, } = useForm();
+
+    const onSubmit = (data) => {
         console.log(data);
         const email = data.email;
         const password = data.password;
+        const name = data.name;
+        const image = data.image;
+
+        // Create user
         createUser(email, password)
-            .then(Result => {
-                const user = Result.user
+            .then((result) => {
+                const user = result.user;
                 console.log(user);
+
+                // Update user profile
+                updateUserProfile(name, image)
+                    .then(() => {
+                        console.log("User profile updated");
+
+                        // SweetAlert2 success alert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registration Successful!',
+                            text: 'Your account has been created and profile updated.',
+                            showConfirmButton: true,
+                            timer: 3000, // Optional: Automatically close after 3 seconds
+                        });
+
+                        reset(); // Reset form
+
+                    })
+                    .catch((error) => {
+                        console.error(error.message);
+
+                        // SweetAlert2 error alert for profile update
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Profile Update Failed',
+                            text: error.message,
+                            showConfirmButton: true,
+                        });
+                    });
+
+                navigate(fromPath, { replace: true });
             })
-    }
+            .catch((error) => {
+                console.error(error.message);
 
-
+                // SweetAlert2 error alert for registration failure
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Registration Failed',
+                    text: error.message,
+                    showConfirmButton: true,
+                });
+            });
+    };
 
     return (
         <div className="hero bg-base-200 min-h-screen px-4">
@@ -46,11 +95,11 @@ export default function Register() {
                             <input
                                 type="text"
                                 name="name"
-                                {...register("name", { required: true })}
+                                {...register("name", { required: "Name is required" })}
                                 placeholder="Enter your name"
                                 className="input input-bordered w-full text-gray-800"
                             />
-                            {errors.name && <span className="text-red-600">This field is required</span>}
+                            {errors.name && <span className="text-red-600">{errors.name.message}</span>}
                         </div>
                         {/* Image Input */}
                         <div className="form-control">
@@ -60,11 +109,11 @@ export default function Register() {
                             <input
                                 type="url"
                                 name="image"
-                                {...register("image")}
+                                {...register("image", { pattern: { value: /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/, message: "Invalid image URL" } })}
                                 placeholder="Enter image URL"
                                 className="input input-bordered w-full text-gray-800"
-                                required
                             />
+                            {errors.image && <span className="text-red-600">{errors.image.message}</span>}
                         </div>
                         {/* Email Input */}
                         <div className="form-control">
@@ -74,11 +123,11 @@ export default function Register() {
                             <input
                                 type="email"
                                 name="email"
-                                {...register("email", { required: true })}
+                                {...register("email", { required: "Email is required" })}
                                 placeholder="Enter your email"
                                 className="input input-bordered w-full text-gray-800"
                             />
-                            {errors.email && <span className="text-red-600">This field is required</span>}
+                            {errors.email && <span className="text-red-600">{errors.email.message}</span>}
                         </div>
 
                         {/* Password Input */}
@@ -90,25 +139,23 @@ export default function Register() {
                                 type="password"
                                 name="password"
                                 {...register("password", {
-                                    required: true,
-                                    minLength: 6,
-                                    maxLength: 20,
-                                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/
+                                    required: "Password is required",
+                                    minLength: { value: 6, message: "Password must be at least 6 characters" },
+                                    maxLength: { value: 20, message: "Password must be less than 20 characters" },
+                                    pattern: {
+                                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
+                                        message: "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+                                    }
                                 })}
                                 placeholder="Enter your password"
                                 className="input input-bordered w-full text-gray-800"
                             />
-                            <label className="label">
-                                <a href="#" className="label-text-alt link link-hover text-primary">Forgot password?</a>
-                            </label>
-                            {errors.password?.type === "required" && <span className="text-red-600">This field is required</span>}
-                            {errors.password?.type === 'minLength' && <span className="text-red-600">password should be minimum 6 character</span>}
-                            {errors.password?.type === 'maxLength' && <span className="text-red-600">passwor must be less than 20 character</span>}
-                            {errors.password?.type === 'pattern' && <span className="text-red-600">passwor must one uppercase one lowercase minimum one number and a special charecter</span>}
+                            {errors.password && <span className="text-red-600">{errors.password.message}</span>}
                         </div>
+
                         {/* Register Button */}
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary w-full text-white hover:bg-primary-dark">
+                            <button type="submit" className="btn btn-primary w-full text-white hover:bg-primary-dark">
                                 Register
                             </button>
                         </div>
