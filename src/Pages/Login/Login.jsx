@@ -54,7 +54,7 @@ export default function Login() {
                     confirmButtonColor: '#d33',
                 });
             });
-        console.log(fromPath)
+        // console.log(fromPath)
         navigate(fromPath, { replace: true });
     };
 
