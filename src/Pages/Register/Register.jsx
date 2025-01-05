@@ -4,8 +4,10 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from 'sweetalert2';
+import useAxiosPublic from "../../Hook/useAxiosPublic";
 
 export default function Register() {
+    const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -32,21 +34,31 @@ export default function Register() {
                     .then(() => {
                         console.log("User profile updated");
 
-                        // SweetAlert2 success alert
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Registration Successful!',
-                            text: 'Your account has been created and profile updated.',
-                            showConfirmButton: true,
-                            timer: 3000, // Optional: Automatically close after 3 seconds
-                        });
+                        const userInfo = {
+                            name: name,
+                            email: email,
+                            image: image,
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                console.log(res.data)
+                                if (res.data.insertedId) {
+                                    // SweetAlert2 success alert
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Registration Successful!',
+                                        text: 'Your account has been created and profile updated.',
+                                        showConfirmButton: true,
+                                        timer: 3000, // Optional: Automatically close after 3 seconds
+                                    });
 
-                        reset(); // Reset form
+                                    reset(); // Reset form
+                                }
+                            })
 
                     })
                     .catch((error) => {
                         console.error(error.message);
-
                         // SweetAlert2 error alert for profile update
                         Swal.fire({
                             icon: 'error',

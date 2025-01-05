@@ -24,7 +24,7 @@ export default function Navbar() {
             <li><NavLink to='/'>Home</NavLink></li>
             <li><NavLink to='/menu'>Menu</NavLink></li>
             <li><NavLink to='/orderfood/salad'>Order Food</NavLink></li>
-            <li><NavLink to='/'>
+            <li><NavLink to='/dashboard/cart'>
                 <IoCart></IoCart>
                 <div className="badge badge-secondary">+{cart && cart.length || 0}</div>
             </NavLink></li>
