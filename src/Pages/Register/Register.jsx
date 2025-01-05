@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from 'sweetalert2';
 import useAxiosPublic from "../../Hook/useAxiosPublic";
+import SocialLogin from "../../Components/SocialLogin";
 
 export default function Register() {
     const axiosPublic = useAxiosPublic();
@@ -183,6 +184,8 @@ export default function Register() {
                             </Link>
                         </span>
                     </div>
+                    {/* Continue with Login Button */}
+                    <SocialLogin></SocialLogin>
                 </div>
             </div>
         </div>

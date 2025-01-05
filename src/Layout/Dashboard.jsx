@@ -1,67 +1,73 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { IoCart } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaBook, FaCalendarAlt, FaUser } from "react-icons/fa";
 import { IoWallet } from "react-icons/io5";
 import { BiSolidCommentDetail } from "react-icons/bi";
 import { BsJournalBookmarkFill } from "react-icons/bs";
 import { BsMenuUp } from "react-icons/bs";
 export default function Dashboard() {
-    const links = (
-        <>
-            <li>
-                <NavLink to='/dashboard/home'><IoHome />
-                    USER HOME
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to='/dashboard/reservation'>
-                    <FaCalendarAlt /> RESERVATION
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to='/dashboard/payment'><IoWallet></IoWallet> PAYMENT HISTORY</NavLink>
-            </li>
-            <li>
-                <NavLink to='cart'>
-                    <IoCart></IoCart>
-                    MY CART
-                </NavLink>
-            </li>
 
-            <li>
-                <NavLink to='/dashboard/'><BiSolidCommentDetail></BiSolidCommentDetail> ADD REVIEW</NavLink>
-            </li>
-            <li>
-                <NavLink to='/dashboard/cart'><BsJournalBookmarkFill></BsJournalBookmarkFill> MY BOOKING</NavLink>
-            </li>
-        </>
-    )
-    const mainLinks = (
-        <>
-            <li>
-                <NavLink to='/'><IoHome />
-                    HOME
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to='/'>
-                    <BsMenuUp /> MENU
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to='/dashboard/payment'><IoWallet></IoWallet> PAYMENT HISTORY</NavLink>
-            </li>
+    const adminLinks = [
+        { path: '/dashboard/home', icon: <IoHome />, label: 'Admin HOME' },
+        { path: '/dashboard/reservation', icon: <FaCalendarAlt />, label: 'ADD ITEMS' },
+        { path: '/dashboard/payment', icon: <IoWallet />, label: 'MANAGE ITEMS' },
+        { path: '/dashboard/allUsers', icon: <FaUser></FaUser>, label: 'ALL USERS' },
+        { path: '/dashboard/manageBookings', icon:<FaBook></FaBook> , label: 'MANAGE BOOKING' },
+    ];
 
-        </>
-    )
+
+    const links = [
+        { path: '/dashboard/home', icon: <IoHome />, label: 'USER HOME' },
+        { path: '/dashboard/reservation', icon: <FaCalendarAlt />, label: 'RESERVATION' },
+        { path: '/dashboard/payment', icon: <IoWallet />, label: 'PAYMENT HISTORY' },
+        { path: '/dashboard/cart', icon: <IoCart />, label: 'MY CART' },
+        { path: '/dashboard/review', icon: <BiSolidCommentDetail />, label: 'ADD REVIEW' },
+        { path: '/dashboard/bookings', icon: <BsJournalBookmarkFill />, label: 'MY BOOKING' },
+    ];
+
+
+    const mainLinks = [
+        { path: '/', icon: <IoHome />, label: 'HOME' },
+        { path: '/', icon: <BsMenuUp />, label: 'MENU' },
+        { path: '/', icon: <IoWallet />, label: 'Contact' },
+    ];
+    // TODO 
+    const isAdmin = true;
+
     return (
         <div className="flex gap-10">
             <div className="w-64 min-h-screen bg-orange-400">
                 <ul className="menu space-y-2">
-                    {links}
+                    {
+                        isAdmin ? <ul>
+                            {adminLinks.map((link, index) => (
+                                <li key={index}>
+                                    <NavLink to={link.path}>
+                                        {link.icon} {link.label}
+                                    </NavLink>
+                                </li>
+                            ))}
+                        </ul> : <ul>
+                            {
+                                links.map((link, index) => (
+                                    <li key={index}>
+                                        <NavLink to={link.path}>
+                                            {link.icon} {link.label}
+                                        </NavLink>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    }
                     <div className="divider"></div>
-                    {mainLinks}
+                    {mainLinks.map((link, index) => (
+                        <li key={index}>
+                            <NavLink to={link.path}>
+                                {link.icon} {link.label}
+                            </NavLink>
+                        </li>
+                    ))}
                 </ul>
             </div>
             <div className="flex-1">

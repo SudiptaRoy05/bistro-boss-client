@@ -4,6 +4,7 @@ import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-s
 import { AuthContext } from '../../Provider/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import SocialLogin from '../../Components/SocialLogin';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -172,6 +173,7 @@ export default function Login() {
                             </Link>
                         </span>
                     </div>
+                    <SocialLogin></SocialLogin>
                 </div>
             </div>
         </div>
