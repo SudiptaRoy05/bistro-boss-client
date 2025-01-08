@@ -6,6 +6,7 @@ import { IoWallet } from "react-icons/io5";
 import { BiSolidCommentDetail } from "react-icons/bi";
 import { BsJournalBookmarkFill } from "react-icons/bs";
 import { BsMenuUp } from "react-icons/bs";
+import useAdmin from "../Hook/useAdmin";
 export default function Dashboard() {
 
     const adminLinks = [
@@ -13,7 +14,7 @@ export default function Dashboard() {
         { path: '/dashboard/reservation', icon: <FaCalendarAlt />, label: 'ADD ITEMS' },
         { path: '/dashboard/payment', icon: <IoWallet />, label: 'MANAGE ITEMS' },
         { path: '/dashboard/allUsers', icon: <FaUser></FaUser>, label: 'ALL USERS' },
-        { path: '/dashboard/manageBookings', icon:<FaBook></FaBook> , label: 'MANAGE BOOKING' },
+        { path: '/dashboard/manageBookings', icon: <FaBook></FaBook>, label: 'MANAGE BOOKING' },
     ];
 
 
@@ -33,7 +34,10 @@ export default function Dashboard() {
         { path: '/', icon: <IoWallet />, label: 'Contact' },
     ];
     // TODO 
-    const isAdmin = true;
+    const [isAdmin] = useAdmin();
+    console.log(isAdmin);
+    // const isAdmin = true;
+    
 
     return (
         <div className="flex gap-10">
