@@ -12,6 +12,7 @@ export default function Dashboard() {
     const adminLinks = [
         { path: '/dashboard/home', icon: <IoHome />, label: 'Admin HOME' },
         { path: '/dashboard/addItem', icon: <FaCalendarAlt />, label: 'ADD ITEMS' },
+        { path: '/dashboard/manageItem', icon: <FaCalendarAlt />, label: 'MANAGE ITEMS' },
         { path: '/dashboard/payment', icon: <IoWallet />, label: 'MANAGE ITEMS' },
         { path: '/dashboard/allUsers', icon: <FaUser></FaUser>, label: 'ALL USERS' },
         { path: '/dashboard/manageBookings', icon: <FaBook></FaBook>, label: 'MANAGE BOOKING' },
