@@ -3,15 +3,15 @@ import Loading from "../Components/Loading";
 import useAdmin from "../Hook/useAdmin"
 import useAuth from "../Hook/useAuth";
 
-export default function AdminRoutes({ childrean }) {
+export default function AdminRoutes({children}) {
     const { user, loading } = useAuth()
     const [isAdmin, isAdminLOading] = useAdmin();
     const location = useLocation();
-    if (Loading || isAdminLOading) {
+    if (loading || isAdminLOading) {
         return <Loading></Loading>
     }
     if (user && isAdmin) {
-        return childrean
+        return children
     }
 
     return <Navigate to='/login' state={{ form: location }} replace></Navigate>

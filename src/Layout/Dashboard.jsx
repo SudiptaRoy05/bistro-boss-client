@@ -11,12 +11,11 @@ export default function Dashboard() {
 
     const adminLinks = [
         { path: '/dashboard/home', icon: <IoHome />, label: 'Admin HOME' },
-        { path: '/dashboard/reservation', icon: <FaCalendarAlt />, label: 'ADD ITEMS' },
+        { path: '/dashboard/addItem', icon: <FaCalendarAlt />, label: 'ADD ITEMS' },
         { path: '/dashboard/payment', icon: <IoWallet />, label: 'MANAGE ITEMS' },
         { path: '/dashboard/allUsers', icon: <FaUser></FaUser>, label: 'ALL USERS' },
         { path: '/dashboard/manageBookings', icon: <FaBook></FaBook>, label: 'MANAGE BOOKING' },
     ];
-
 
     const links = [
         { path: '/dashboard/home', icon: <IoHome />, label: 'USER HOME' },
@@ -37,7 +36,7 @@ export default function Dashboard() {
     const [isAdmin] = useAdmin();
     console.log(isAdmin);
     // const isAdmin = true;
-    
+
 
     return (
         <div className="flex gap-10">
