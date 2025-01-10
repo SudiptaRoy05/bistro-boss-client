@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import useCart from "../../Hook/useCart"
 import { FaDeleteLeft } from "react-icons/fa6";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import { Link } from "react-router-dom";
 export default function Cart() {
     const axiosSecure = useAxiosSecure();
     const [cart, refetch] = useCart();
@@ -40,7 +41,9 @@ export default function Cart() {
             <div className="flex justify-evenly items-center bg-slate-500 p-2 mb-8">
                 <h2 className="text-3xl"> Item : {cart && cart.length}</h2>
                 <h2 className="text-3xl"> Total Price : {cart && totalPrice}</h2>
-                <button className="btn btn-success">Pay</button>
+                {cart.length ? <Link to='/dashboard/payment'>
+                    <button className="btn btn-success">Pay</button>
+                </Link> : <button disabled className="btn btn-success">Pay</button>}
             </div>
             <div>
                 <div className="overflow-x-auto">
