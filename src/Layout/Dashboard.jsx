@@ -20,8 +20,8 @@ export default function Dashboard() {
 
     const links = [
         { path: '/dashboard/home', icon: <IoHome />, label: 'USER HOME' },
-        { path: '/dashboard/reservation', icon: <FaCalendarAlt />, label: 'RESERVATION' },
-        { path: '/dashboard/payment', icon: <IoWallet />, label: 'PAYMENT HISTORY' },
+        { path: '/dashboard/paymenthistory', icon: <FaCalendarAlt />, label: 'PAYMENT HISTORY' },
+        { path: '/dashboard/payment', icon: <IoWallet />, label: 'PAYMENT' },
         { path: '/dashboard/cart', icon: <IoCart />, label: 'MY CART' },
         { path: '/dashboard/review', icon: <BiSolidCommentDetail />, label: 'ADD REVIEW' },
         { path: '/dashboard/bookings', icon: <BsJournalBookmarkFill />, label: 'MY BOOKING' },

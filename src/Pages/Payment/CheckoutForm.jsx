@@ -17,12 +17,14 @@ export default function CheckoutForm() {
     const price = cart.reduce((total, item) => total + item.price, 0)
 
     useEffect(() => {
-        axiosSecure.post('/create-payment-intent', { price })
-            .then(res => {
-                console.log(res.data);
-                setClientSecret(res.data.clientSecret)
-            })
-    }, [])
+        if (price > 0) {
+            axiosSecure.post('/create-payment-intent', { price })
+                .then(res => {
+                    console.log(res.data);
+                    setClientSecret(res.data.clientSecret)
+                })
+        }
+    }, [axiosSecure, price])
     const handleSubmit = async (e) => {
 
         e.preventDefault();
@@ -63,6 +65,21 @@ export default function CheckoutForm() {
             if (paymentIntent.status === 'succeeded') {
                 console.log('transaction id', paymentIntent.id)
                 setTransactionId(paymentIntent.id)
+                // save payment to db 
+                const payment = {
+                    transactionId: paymentIntent.id,
+                    email: user.email,
+                    price: price,
+                    date: new Date(),//uct converted
+                    cartIds: cart.map(item => item._id),
+                    menuItemIds: cart.map(item => item.menuItemId),
+                    status: 'pending'
+
+                }
+
+                const res = await axiosSecure.post('/payments', payment);
+                console.log("payment saved", res.data)
+
             }
         }
     }
