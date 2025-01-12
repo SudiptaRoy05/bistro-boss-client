@@ -16,6 +16,8 @@ import ManageItem from "../Pages/ManageItem";
 import UpdateItem from "../Pages/UpdateItem.Jsx";
 import Payment from "../Pages/Payment/Payment";
 import PaymentHistory from "../Pages/Payment/PaymentHistory";
+import UserHome from "../Pages/UserHome";
+import AdminHome from "../Pages/AdminHome";
 
 
 const router = createBrowserRouter([
@@ -60,6 +62,10 @@ const router = createBrowserRouter([
         errorElement: <h3>404</h3>,
         children: [
             {
+                path: '/dashboard/userhome',
+                element: <UserHome></UserHome>
+            },
+            {
                 path: '/dashboard/cart',
                 element: <Cart></Cart>
             },
@@ -73,6 +79,12 @@ const router = createBrowserRouter([
             },
 
             // adminOnly routes 
+            {
+                path:'/dashboard/adminhome',
+                element:<AdminRoutes>
+                    <AdminHome></AdminHome>
+                </AdminRoutes>,
+            },
             {
                 path: '/dashboard/allUsers',
                 element: <AdminRoutes>
@@ -96,7 +108,7 @@ const router = createBrowserRouter([
                 element: <AdminRoutes>
                     <UpdateItem></UpdateItem>
                 </AdminRoutes>,
-                loader: async ({ params }) => fetch(`http://localhost:5000/menu/${params.id}`)
+                loader: async ({ params }) => fetch(`https://bistro-boss-server-one-ruddy.vercel.app/menu/${params.id}`)
             }
 
         ]

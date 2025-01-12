@@ -10,7 +10,7 @@ import useAdmin from "../Hook/useAdmin";
 export default function Dashboard() {
 
     const adminLinks = [
-        { path: '/dashboard/home', icon: <IoHome />, label: 'Admin HOME' },
+        { path: '/dashboard/adminhome', icon: <IoHome />, label: 'Admin HOME' },
         { path: '/dashboard/addItem', icon: <FaCalendarAlt />, label: 'ADD ITEMS' },
         { path: '/dashboard/manageItem', icon: <FaCalendarAlt />, label: 'MANAGE ITEMS' },
         { path: '/dashboard/payment', icon: <IoWallet />, label: 'MANAGE ITEMS' },
@@ -19,7 +19,7 @@ export default function Dashboard() {
     ];
 
     const links = [
-        { path: '/dashboard/home', icon: <IoHome />, label: 'USER HOME' },
+        { path: '/dashboard/userhome', icon: <IoHome />, label: 'USER HOME' },
         { path: '/dashboard/paymenthistory', icon: <FaCalendarAlt />, label: 'PAYMENT HISTORY' },
         { path: '/dashboard/payment', icon: <IoWallet />, label: 'PAYMENT' },
         { path: '/dashboard/cart', icon: <IoCart />, label: 'MY CART' },

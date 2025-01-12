@@ -3,9 +3,11 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { IoCart } from "react-icons/io5";
 import useCart from "../../Hook/useCart";
+import useAdmin from "../../Hook/useAdmin";
 
 export default function Navbar() {
     const { user, logout } = useContext(AuthContext);
+    const [isAdmin] = useAdmin();
     const [cart] = useCart();
 
 
@@ -24,6 +26,12 @@ export default function Navbar() {
             <li><NavLink to='/'>Home</NavLink></li>
             <li><NavLink to='/menu'>Menu</NavLink></li>
             <li><NavLink to='/orderfood/salad'>Order Food</NavLink></li>
+            {
+                user && isAdmin && <li><NavLink to='/dashboard/adminhome'>Dashobard</NavLink></li>
+            }
+            {
+                user && !isAdmin && <li><NavLink to='/dashboard/userhome'>Dashobard</NavLink></li>
+            }
             <li><NavLink to='/dashboard/cart'>
                 <IoCart></IoCart>
                 <div className="badge badge-secondary">+{cart && cart.length || 0}</div>
